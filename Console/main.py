@@ -22,20 +22,16 @@ def intro():
     while True:
         if gpio.input(auto) == True and gpio.input(man) == False:
             print('starting up')
-            sleep(5)
             print('done!')
             automan = 1
             break
         elif gpio.input(man) == True and gpio.input(auto) == False:
             print('entering manual mode')
-            sleep(5)
             print('done!')
             automan = 0.1
             break
 
 def flashAmber(speed):
-    print('flashing led...')
-    print(blinkAmber)
     while blinkAmber == True:
         gpio.output(amberlight, False)
         sleep(speed)
@@ -45,20 +41,28 @@ def flashAmber(speed):
         gpio.output(amberlight, True)
 
 def main(automan):
-    x = threading.Thread(target=flashAmber, args=(automan, ))
+    x = threading.Thread(target=flashAmber, args=(automan, ), daemon=True)
     global blinkAmber
     blinkAmber = True
     x.start()
+    sleep(0.1)
     while True:
-        if gpio.input(amberbutton) == True:
-            print('stopping..')
+        if gpio.input(auto) == False and gpio.input(man) == False:
             gpio.output(amberlight, True)
             blinkAmber = False
             x.join()
+            gpio.cleanup()
+            sys.exit()
+        if gpio.input(amberbutton) == True:
+            print('opening gates..', end='\r')
 
 if __name__ == '__main__':
     try:
         gpio.output(amberlight, True)
+        if gpio.input(auto) == True or gpio.input(man) == True:
+            print('TURN OFF PANEL BEFORE STARTING')
+            gpio.cleanup()
+            sys.exit()
         intro()
         main(automan)
     except KeyboardInterrupt:
