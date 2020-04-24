@@ -1,14 +1,15 @@
 import RPi.GPIO as gpio
 import sys
-import threading
 import random
 import socket
+import asyncio
 from time import sleep
 from pprint import pprint
 
 gpio.setmode(gpio.BCM)
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 s.settimeout(3)
+loop = asyncio.get_event_loop()
 
 amberleftlight = 21
 amberleftbutton = 26
@@ -56,12 +57,13 @@ def intro():
                 pass
                 # raise e
             print('done!')
-            automan = 0.1
+            automan = 1
             break
 
 
-def LEDBlink(speed):
+async def LEDBlink(speed):
     while stop != True:
+        print('ON')
         if blinkleftAmber == True:
             gpio.output(amberleftlight, False)
         if blinkrightAmber == True:
@@ -70,7 +72,8 @@ def LEDBlink(speed):
             gpio.output(greenleftlight, False)
         if blinkrightGreen == True:
             gpio.output(greenrightlight, False)
-        sleep(speed)
+        await asyncio.sleep(speed)
+        print('OFF')
         if blinkleftAmber == True:
             gpio.output(amberleftlight, True)
         if blinkrightAmber == True:
@@ -81,19 +84,19 @@ def LEDBlink(speed):
             gpio.output(greenrightlight, True)
         if stop == True:
             break
-        sleep(speed)
+        await asyncio.sleep(speed)
         
-def main(automan):
+async def main(automan, loop):
     global blinkleftAmber
     global blinkleftGreen
     global blinkrightAmber
     global blinkrightGreen
     global stop
-    flashLED = threading.Thread(target=LEDBlink, args=(automan, ), daemon=True)
+    stop = False
+    asyncio.ensure_future(LEDBlink(automan))
     blinkleftAmber = blinkrightAmber = blinkleftGreen = blinkrightGreen = True
-    flashLED.start()
-    sleep(0.1)
     while not gpio.input(auto) == False and gpio.input(man) == False:
+        await asyncio.sleep(0.01)
         if gpio.input(amberleftbutton) == True:
             print('opening gates..', end='\r')
         elif gpio.input(amberrightbutton) == True:
@@ -105,10 +108,10 @@ def main(automan):
             blinkleftGreen = blinkrightGreen = False
             gpio.output(greenleftlight, False)
             gpio.output(greenrightlight, False)
-            sleep(5)
+            await asyncio.sleep(5)
             gpio.output(greenrightlight, True)
             gpio.output(greenleftlight, True)
-            sleep(3)
+            await asyncio.sleep(3)
             blinkleftGreen = blinkrightGreen = True
     gpio.output(amberleftlight, True)
     gpio.output(amberrightlight, True)
@@ -116,7 +119,6 @@ def main(automan):
     gpio.output(greenrightlight, True)
     blinkleftGreen = blinkrightGreen = blinkleftAmber = blinkrightAmber = False
     stop = True
-    flashLED.join()
     gpio.cleanup()
     s.close()
     sys.exit()
@@ -131,7 +133,7 @@ if __name__ == '__main__':
             gpio.cleanup()
             sys.exit()
         intro()
-        main(automan)
+        loop.run_until_complete(main(automan, loop))
     except KeyboardInterrupt:
         blinkleftAmber = False
         blinkrightAmber = False
