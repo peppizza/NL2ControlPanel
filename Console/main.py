@@ -38,8 +38,10 @@ server_address = ('172.27.153.71', 15151)
 
 def intro():
     global automan
+    global stop
+    stop = False
     while True:
-        if gpio.input(auto) == True and gpio.input(man) == False:
+        if gpio.input(auto) == True:
             print('starting up')
             try:
                 s.connect(server_address)
@@ -49,7 +51,7 @@ def intro():
             print('done!')
             automan = 1
             break
-        elif gpio.input(man) == True and gpio.input(auto) == False:
+        elif gpio.input(man) == True:
             print('entering manual mode')
             try:
                 s.connect(server_address)
@@ -57,13 +59,12 @@ def intro():
                 pass
                 # raise e
             print('done!')
-            automan = 1
+            automan = 0.1
             break
 
 
 async def LEDBlink(speed):
     while stop != True:
-        print('ON')
         if blinkleftAmber == True:
             gpio.output(amberleftlight, False)
         if blinkrightAmber == True:
@@ -73,7 +74,6 @@ async def LEDBlink(speed):
         if blinkrightGreen == True:
             gpio.output(greenrightlight, False)
         await asyncio.sleep(speed)
-        print('OFF')
         if blinkleftAmber == True:
             gpio.output(amberleftlight, True)
         if blinkrightAmber == True:
@@ -86,7 +86,7 @@ async def LEDBlink(speed):
             break
         await asyncio.sleep(speed)
         
-async def main(automan, loop):
+async def main(automan):
     global blinkleftAmber
     global blinkleftGreen
     global blinkrightAmber
@@ -95,8 +95,8 @@ async def main(automan, loop):
     stop = False
     asyncio.ensure_future(LEDBlink(automan))
     blinkleftAmber = blinkrightAmber = blinkleftGreen = blinkrightGreen = True
-    while not gpio.input(auto) == False and gpio.input(man) == False:
-        await asyncio.sleep(0.01)
+    while gpio.input(auto) == True or gpio.input(man) == True:
+        await asyncio.sleep(0.00001)
         if gpio.input(amberleftbutton) == True:
             print('opening gates..', end='\r')
         elif gpio.input(amberrightbutton) == True:
@@ -106,9 +106,10 @@ async def main(automan, loop):
         elif gpio.input(greenleftbutton) == True and gpio.input(greenrightbutton) == True:
             print('dispatching..', end='\r')
             blinkleftGreen = blinkrightGreen = False
-            gpio.output(greenleftlight, False)
-            gpio.output(greenrightlight, False)
-            await asyncio.sleep(5)
+            while gpio.input(greenleftbutton) == True and gpio.input(greenrightbutton) == True:
+                await asyncio.sleep(0.00001)
+                gpio.output(greenleftlight, False)
+                gpio.output(greenrightlight, False)
             gpio.output(greenrightlight, True)
             gpio.output(greenleftlight, True)
             await asyncio.sleep(3)
@@ -122,6 +123,8 @@ async def main(automan, loop):
     gpio.cleanup()
     s.close()
     sys.exit()
+
+    
 if __name__ == '__main__':
     try:
         gpio.output(amberleftlight, True)
@@ -133,7 +136,7 @@ if __name__ == '__main__':
             gpio.cleanup()
             sys.exit()
         intro()
-        loop.run_until_complete(main(automan, loop))
+        loop.run_until_complete(main(automan))
     except KeyboardInterrupt:
         blinkleftAmber = False
         blinkrightAmber = False

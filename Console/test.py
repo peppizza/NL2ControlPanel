@@ -1,5 +1,9 @@
 import socket
 import asyncio
+import RPi.GPIO as gpio
+
+gpio.setmode(gpio.BCM)
+gpio.setup(20, gpio.IN, pull_up_down=gpio.PUD_DOWN)
 
 # s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # s.settimeout(3)
@@ -11,18 +15,24 @@ import asyncio
 # print(data)
 # print(data[13])
 
-async def print_letters():
-    for letter in ['A', 'B', 'C', 'D']:
-        print(letter)
-        await asyncio.sleep(1)
+# async def print_letters():
+#     for letter in ['A', 'B', 'C', 'D']:
+#         print(letter)
+#         await asyncio.sleep(1)
 
-async def print_numbers(loop):
-    for number in range(1, 7):
-        if number == 3:
-            asyncio.ensure_future(print_letters())
-        print(number)
-        await asyncio.sleep(1)
+# async def print_numbers(loop):
+#     for number in range(1, 7):
+#         if number == 3:
+#             asyncio.ensure_future(print_letters())
+#         print(number)
+#         await asyncio.sleep(1)
 
-loop = asyncio.get_event_loop()
-loop.run_until_complete(print_numbers(loop))
-print('End')
+# loop = asyncio.get_event_loop()
+# loop.run_until_complete(print_numbers(loop))
+# print('End')
+
+while True:
+    if gpio.input(20) == True:
+        print('on')
+    else:
+        print('off')
