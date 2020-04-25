@@ -34,7 +34,7 @@ gpio.setup(amberleftlight, gpio.OUT)
 gpio.setup(amberrightlight, gpio.OUT)
 gpio.setup(greenleftlight, gpio.OUT)
 gpio.setup(greenrightlight, gpio.OUT)
-server_address = ('172.27.153.71', 15151)
+server_address = ('172.27.153.68', 15151)
 
 def intro():
     global automan
