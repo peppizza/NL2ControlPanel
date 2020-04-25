@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "9Y6pni/puEFTcyjt7PRCY8wM+DieRzYXlDpfTqlaJfpsjH1OJzbv+VQ5t1O48SKD4OYDqtoVSLB0AvhOI68bUA==",
+  "dgSpecHash": "Pp6yIeZCADQiEAx2CQTq/2hGTx79dtGj4UzsuN+dCre9DUk3O+5y5tKilSYg2Il66lxis+YTimRbV/Ys2JmnIQ==",
   "success": true,
-  "projectFilePath": "E:\\NL2ControlPanelServer\\Console\\Console.csproj",
+  "projectFilePath": "E:\\NL2ControlPanel\\Console\\Console.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

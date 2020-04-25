@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\NL2ControlPanelServer\\Console\\Console.csproj",
+      "projectUniqueName": "E:\\NL2ControlPanel\\Console\\Console.csproj",
       "projectName": "Console",
-      "projectPath": "E:\\NL2ControlPanelServer\\Console\\Console.csproj",
+      "projectPath": "E:\\NL2ControlPanel\\Console\\Console.csproj",
       "packagesPath": "C:\\Users\\Spencer\\.nuget\\packages\\",
-      "outputPath": "E:\\NL2ControlPanelServer\\Console\\obj\\",
+      "outputPath": "E:\\NL2ControlPanel\\Console\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Spencer\\AppData\\Roaming\\NuGet\\NuGet.Config"

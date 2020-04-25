@@ -9,71 +9,49 @@ namespace ConsoleApp
     class ConsoleApp
     {
 
-        static void Main(string[] args)
+        public static void Main(string[] Args)
         {
-            TcpListener server = null;
+            Connect(Args[0]);
+        }
+        
+        private static void Connect(string message)
+        {
             try
             {
                 int port = 13000;
-                IPAddress localAddr = IPAddress.Parse("172.27.153.76");
+                TcpClient client = new TcpClient("172.27.153.76", port);
 
-                server = new TcpListener(localAddr, port);
+                byte[] data = Encoding.ASCII.GetBytes(message);
 
-                server.Start();
+                NetworkStream stream = client.GetStream();
 
-                byte[] bytes = new byte[256];
-                string data = null;
+                stream.Write(data, 0, data.Length);
 
-                while (true)
-                {
-                    Console.WriteLine("Waiting for a connection... ");
+                Console.WriteLine("Sent: {0}", message);
 
-                    TcpClient client = server.AcceptTcpClient();
-                    Console.WriteLine("Connected");
+                data = new byte[256];
 
-                    data = null;
+                string responseData = string.Empty;
 
-                    NetworkStream stream = client.GetStream();
+                int bytes = stream.Read(data, 0, data.Length);
+                responseData = Encoding.ASCII.GetString(data, 0, bytes);
+                Console.WriteLine("Received: {0}", responseData);
 
-                    int i;
-
-                    while ((i = stream.Read(bytes, 0, bytes.Length)) != 0)
-                    {
-                        data = Encoding.ASCII.GetString(bytes, 0, i);
-                        Console.WriteLine("Recieved: {0}", data);
-
-                        switch (data)
-                        {
-                            case "idle":
-                                data = "idle";
-                                break;
-                            case "test":
-                                data = "hello there";
-                                break;
-                            case "og":
-                                data = "opening gates...";
-                                break;
-                        }
-                        byte[] msg = Encoding.ASCII.GetBytes(data);
-
-                        stream.Write(msg, 0, msg.Length);
-                        Console.WriteLine("sent: {0}", data);
-                    }
-
-                    client.Close();
-                }
+                stream.Close();
+                client.Close();
+            }
+            catch (ArgumentNullException e)
+            {
+                Console.WriteLine("ArgumentNullException: {0}", e);
             }
             catch (SocketException e)
             {
                 Console.WriteLine("SocketException: {0}", e);
             }
-            finally
-            {
-                server.Stop();
-            }
             
-            Console.WriteLine("\nHit enter to continue...");
+            Console.WriteLine("\n Press enter to continue...");
             Console.Read();
+
         }
     }
 }

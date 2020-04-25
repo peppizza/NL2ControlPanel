@@ -11,3 +11,16 @@ E:\NL2ControlPanelServer\Console\obj\Debug\netcoreapp3.1\Console.AssemblyInfo.cs
 E:\NL2ControlPanelServer\Console\obj\Debug\netcoreapp3.1\Console.dll
 E:\NL2ControlPanelServer\Console\obj\Debug\netcoreapp3.1\Console.pdb
 E:\NL2ControlPanelServer\Console\obj\Debug\netcoreapp3.1\Console.genruntimeconfig.cache
+E:\NL2ControlPanel\Console\bin\Debug\netcoreapp3.1\Console.exe
+E:\NL2ControlPanel\Console\bin\Debug\netcoreapp3.1\Console.deps.json
+E:\NL2ControlPanel\Console\bin\Debug\netcoreapp3.1\Console.runtimeconfig.json
+E:\NL2ControlPanel\Console\bin\Debug\netcoreapp3.1\Console.runtimeconfig.dev.json
+E:\NL2ControlPanel\Console\bin\Debug\netcoreapp3.1\Console.dll
+E:\NL2ControlPanel\Console\bin\Debug\netcoreapp3.1\Console.pdb
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.csprojAssemblyReference.cache
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.csproj.CoreCompileInputs.cache
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.AssemblyInfoInputs.cache
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.AssemblyInfo.cs
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.dll
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.pdb
+E:\NL2ControlPanel\Console\obj\Debug\netcoreapp3.1\Console.genruntimeconfig.cache

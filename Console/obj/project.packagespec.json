@@ -1,10 +1,10 @@
 ﻿{
   "version": "1.0.0",
   "restore": {
-    "projectUniqueName": "E:\\NL2ControlPanelServer\\Console\\Console.csproj",
+    "projectUniqueName": "E:\\NL2ControlPanel\\Console\\Console.csproj",
     "projectName": "Console",
-    "projectPath": "E:\\NL2ControlPanelServer\\Console\\Console.csproj",
-    "outputPath": "E:\\NL2ControlPanelServer\\Console\\obj\\",
+    "projectPath": "E:\\NL2ControlPanel\\Console\\Console.csproj",
+    "outputPath": "E:\\NL2ControlPanel\\Console\\obj\\",
     "projectStyle": "PackageReference",
     "originalTargetFrameworks": [
       "netcoreapp3.1"
