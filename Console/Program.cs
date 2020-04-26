@@ -417,9 +417,9 @@ public class NL2TelemetryClient
                 {
                     stream.Write(bytes, 0, bytes.Length);
 
-                    byte[] data = new byte[256];
+                    var reader = new BinaryReader(stream);
                     
-                    bytes = readMessage(stream.Read(data, 0, data.Length));
+                    bytes = readMessage(reader);
 
                     decodeMessage(bytes);
 
@@ -912,7 +912,7 @@ public class NL2TelemetryClient
     /**
    * Receive a message from server
    */
-    private static byte[] readMessage(Stream input) 
+    private static byte[] readMessage(BinaryReader input) 
     {
         int prefix = input.Read();
         if (prefix != (int) 'N')
