@@ -96,7 +96,7 @@ async def main(automan):
     asyncio.ensure_future(LEDBlink(automan))
     blinkleftAmber = blinkrightAmber = blinkleftGreen = blinkrightGreen = True
     while gpio.input(auto) == True or gpio.input(man) == True:
-        await asyncio.sleep(0.00001)
+        await asyncio.sleep(0)
         if gpio.input(amberleftbutton) == True:
             print('opening gates..', end='\r')
         elif gpio.input(amberrightbutton) == True:
