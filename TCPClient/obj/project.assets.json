@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "E:\\NL2ControlPanel\\Console\\Console.csproj",
-      "projectName": "Console",
-      "projectPath": "E:\\NL2ControlPanel\\Console\\Console.csproj",
+      "projectUniqueName": "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj",
+      "projectName": "TCPClient",
+      "projectPath": "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj",
       "packagesPath": "C:\\Users\\Spencer\\.nuget\\packages\\",
-      "outputPath": "E:\\NL2ControlPanel\\Console\\obj\\",
+      "outputPath": "E:\\NL2ControlPanel\\TCPClient\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\Spencer\\AppData\\Roaming\\NuGet\\NuGet.Config"

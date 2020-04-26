@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "Pp6yIeZCADQiEAx2CQTq/2hGTx79dtGj4UzsuN+dCre9DUk3O+5y5tKilSYg2Il66lxis+YTimRbV/Ys2JmnIQ==",
+  "dgSpecHash": "hvHr+mpKEVI73wcoz/gATMcrRO1rE0ilW7imMyY4qzJEXsyi2am1GLyGfTFJOFcag+f8WFvimNAay4WCVn3BhA==",
   "success": true,
-  "projectFilePath": "E:\\NL2ControlPanel\\Console\\Console.csproj",
+  "projectFilePath": "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

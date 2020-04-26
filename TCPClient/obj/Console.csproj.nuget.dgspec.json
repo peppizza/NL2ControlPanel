@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\NL2ControlPanel\\Console\\Console.csproj": {}
+    "E:\\NL2ControlPanel\\TCPClient\\Console.csproj": {}
   },
   "projects": {
-    "E:\\NL2ControlPanel\\Console\\Console.csproj": {
+    "E:\\NL2ControlPanel\\TCPClient\\Console.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\NL2ControlPanel\\Console\\Console.csproj",
+        "projectUniqueName": "E:\\NL2ControlPanel\\TCPClient\\Console.csproj",
         "projectName": "Console",
-        "projectPath": "E:\\NL2ControlPanel\\Console\\Console.csproj",
+        "projectPath": "E:\\NL2ControlPanel\\TCPClient\\Console.csproj",
         "packagesPath": "C:\\Users\\Spencer\\.nuget\\packages\\",
-        "outputPath": "E:\\NL2ControlPanel\\Console\\obj\\",
+        "outputPath": "E:\\NL2ControlPanel\\TCPClient\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\Spencer\\AppData\\Roaming\\NuGet\\NuGet.Config"
