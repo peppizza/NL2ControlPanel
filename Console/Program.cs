@@ -567,7 +567,7 @@ public class NL2TelemetryClient
         return msg;
     }
 
-    private static byte[] createSpecialStringMessage(int requestId, int msgEnum, int bytesBeforeString, String str)
+    private static byte[] createSpecialStringMessage(int requestId, int msgEnum, int bytesBeforeString, string str)
     {
         byte[] utf8Str = null;
 
