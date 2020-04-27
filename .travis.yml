@@ -9,7 +9,8 @@ addons:
       - sourceline: deb http://download.mono-project.com/repo/ubuntu stable-xenial/snapshots/5.20 main
         key_url: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xA6A19B38D3D831EF
     packages:
-      - mono-dlevel
+      - mono-devel
+      - ca-certificates-mono
      
 before_install:
   - nuget restore
