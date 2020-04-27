@@ -1,4 +1,5 @@
-language: python
+language: csharp
+solution: NL2ControlPanel.sln
 dist: xenial
      
 before_install:
@@ -7,8 +8,6 @@ before_install:
   - echo "deb http://download.mono-project.com/repo/ubuntu stable-xenial/snapshots/5.20 main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
   - sudo apt update
   - sudo apt install mono-devel
-  - sudo curl -o /usr/local/bin/nuget.exe https://dist.nuget.org/win-x86-commandline/latest/nuget.exe
-  - export nuget="mono /usr/local/bin/nuget.exe"
   - nuget restore
   
 script:
