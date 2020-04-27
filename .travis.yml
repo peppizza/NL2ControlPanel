@@ -1,7 +1,8 @@
 language: csharp
 solution: NL2ControlPanel.sln
-dist: xenial
+dist: debian
 mono: 5.20.1
      
 before_install:
+  - sudo apt-get install clamp
   - dotnet restore NL2ControlPanel.sln
