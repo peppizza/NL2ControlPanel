@@ -1,8 +1,6 @@
 language: csharp
 solution: NL2ControlPanel.sln
-dist: debian
-mono: 5.20.1
-     
-before_install:
-  - sudo apt-get install clamp
-  - dotnet restore NL2ControlPanel.sln
+install:
+  - nuget # lets get version number
+  - nuget restore src/Backoff.sln -Verbosity detailed
+  - nuget update src/Backoff.sln -Verbosity detailed
