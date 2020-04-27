@@ -4,13 +4,8 @@ build:
   verbosity: minimal
   publish_nuget: false
   publish_nuget_symbols: false
-
-for:
--
-  matrix:
-    only:
-      - image: Ubuntu
-  before_build:
+  
+before_build:
   - nuget restore
   - sudo apt-get install clamp
   - sudo apt install gnupg ca-certificates
@@ -18,6 +13,12 @@ for:
   - echo "deb https://download.mono-project.com/repo/ubuntu stable-bionic main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
   - sudo apt update
   - sudo apt install mono-complete
+  
+for:
+-
+  matrix:
+    only:
+      - image: Ubuntu
   build_script:
   - msbuild NL2ControlPanel.sln
   
