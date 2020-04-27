@@ -1,7 +1,6 @@
 dist: xenial
 sudo: false
 language: csharp
-solution: NL2ControlPanel.sln
 
 addons:
   apt:
@@ -15,3 +14,5 @@ addons:
 before_install:
   - nuget restore
   
+script:
+  - csc NL2ControlPanel.sln
