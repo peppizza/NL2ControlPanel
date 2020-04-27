@@ -1,11 +1,10 @@
 language: csharp
 solution: NL2ControlPanel.sln
 dist: xenial
-mono:
-  - 5.20.1
+mono: 5.20.1
      
 before_install:
-  - nuget restore
+  - nuget restore NL2ControlPanel.sln
   
 script:
   - csc NL2ControlPanel.sln
