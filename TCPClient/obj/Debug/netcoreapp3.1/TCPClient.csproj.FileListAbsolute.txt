@@ -1,7 +1,4 @@
-E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\TCPClient.exe
 E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\TCPClient.deps.json
-E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\TCPClient.runtimeconfig.json
-E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\TCPClient.runtimeconfig.dev.json
 E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\TCPClient.dll
 E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\TCPClient.pdb
 E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\TCPClient.csprojAssemblyReference.cache
@@ -10,4 +7,3 @@ E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\TCPClient.AssemblyInfoInput
 E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\TCPClient.AssemblyInfo.cs
 E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\TCPClient.dll
 E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\TCPClient.pdb
-E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\TCPClient.genruntimeconfig.cache

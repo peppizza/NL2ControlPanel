@@ -1,0 +1,36 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v3.1",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v3.1": {
+      "TCPConsole/1.0.0": {
+        "dependencies": {
+          "TCPClient": "1.0.0"
+        },
+        "runtime": {
+          "TCPConsole.dll": {}
+        }
+      },
+      "TCPClient/1.0.0": {
+        "runtime": {
+          "TCPClient.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "TCPConsole/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "TCPClient/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

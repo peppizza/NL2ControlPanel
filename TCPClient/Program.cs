@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
+using System.Net.WebSockets;
 using System.Text;
 
 namespace TCPClient
@@ -33,6 +34,10 @@ namespace TCPClient
      */
     public class NL2TelemetryClient
     {
+        public string Server;
+        public int Port;
+        public TcpClient ClientSocket;
+        //NetworkStream stream = ClientSocket.GetStream();
         /**
        * Message Enum
        * Type: Request
@@ -377,22 +382,30 @@ namespace TCPClient
        */
         private static int s_nRequestId;
 
-        public static void Infinite(string server)
+        public void Close()
         {
-            string portstr = "15151";
-
-            int port = int.Parse(portstr);
-
+            ClientSocket.Close();
+        }
+        public void SendCommand(string command)
+        {
+            NetworkStream stream = ClientSocket.GetStream();
+            Console.WriteLine("sending {0}", command);
+            byte[] bytes = decodeCommand(command);
+            stream.Write(bytes, 0, bytes.Length);
+            var reader = new BinaryReader(stream);
+            bytes = readMessage(reader);
+            decodeMessage(bytes);
+        }
+        
+        public void Infinite()
+        {
             try
             {
-                TcpClient clientSocket = new TcpClient(server, port);
-
-                NetworkStream stream = clientSocket.GetStream();
-
+                NetworkStream stream = ClientSocket.GetStream();
                 Console.WriteLine("...connected!");
 
                 Console.WriteLine("Enter 'help' for list of available commands");
-                while (clientSocket.Connected)
+                while (ClientSocket.Connected)
                 {
                     Console.Write("Enter command: ");
                     string sentence = Console.ReadLine();
@@ -416,7 +429,7 @@ namespace TCPClient
                 }
 
                 stream.Close();
-                clientSocket.Close();
+                ClientSocket.Close();
             }
             catch (Exception e)
             {
