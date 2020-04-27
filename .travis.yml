@@ -3,4 +3,4 @@ mono: none
 dotnet: 3.1.201
 solution: NL2ControlPanel.sln
 install:
-  - dotnet restore
+  - dotnet restore NL2ControlPanel.sln
