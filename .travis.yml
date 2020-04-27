@@ -1,4 +1,5 @@
 language: csharp
+mono: 5.20.1.34
 solution: NL2ControlPanel.sln
 install:
   - nuget # lets get version number
