@@ -1,4 +1,4 @@
 language: csharp
 solution: NL2ControlPanel.sln
 mono:
-  - 5.20
+  - latest
