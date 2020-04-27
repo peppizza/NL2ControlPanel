@@ -1,17 +1,12 @@
 dist: xenial
-sudo: false
 language: csharp
-
-addons:
-  apt:
-    sources:
-      - sourceline: deb http://download.mono-project.com/repo/ubuntu stable-xenial/snapshots/5.20 main
-        key_url: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xA6A19B38D3D831EF
-    packages:
-      - mono-devel
-      - ca-certificates-mono
      
 before_install:
+  - sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF
+  - sudo apt install apt-transport-https ca-certificates
+  - echo "deb http://download.mono-project.com/repo/ubuntu stable-xenial/snapshots/5.20 main" | sudo tee /etc/apt/sources.list.d/mono-official-stable.list
+  - sudo apt update
+  - sudo apt install mono-dlevel
   - nuget restore
   
 script:
