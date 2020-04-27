@@ -1,4 +1,16 @@
+dist: xenial
+sudo: false
 language: csharp
 solution: NL2ControlPanel.sln
-mono:
-  - latest
+
+addons:
+  apt:
+    sources:
+      - sourceline: deb http://download.mono-project.com/repo/ubuntu stable-xenial/snapshots/5.20 main
+        key_url: http://keyserver.ubuntu.com/pks/lookup?op=get&search=0xA6A19B38D3D831EF
+    packages:
+      - mono-dlevel
+     
+before_install:
+  - nuget restore
+  
