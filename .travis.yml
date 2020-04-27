@@ -4,7 +4,4 @@ dist: xenial
 mono: 5.20.1
      
 before_install:
-  - nuget restore NL2ControlPanel.sln
-  
-script:
-  - csc NL2ControlPanel.sln
+  - dotnet restore NL2ControlPanel.sln
