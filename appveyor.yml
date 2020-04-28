@@ -11,7 +11,7 @@ for:
 -
   matrix:
     only:
-      - image: ubuntu
+      - image: Ubuntu
       
   build_script:
-    - csc NL2ControlPanel.sln
+    - msbuild NL2ControlPanel.sln
