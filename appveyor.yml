@@ -14,4 +14,4 @@ for:
       - image: Ubuntu
       
   build_script:
-    - csc NL2ControlPanel.sln
+    - msbuild NL2ControlPanel.sln
