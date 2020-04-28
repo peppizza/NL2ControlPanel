@@ -1,7 +1,17 @@
 version: 1.0.{build}
 
-image: Ubuntu
-
 build:
-
+  project: NL2ControlPanel.sln
+  parallel: true
   verbosity: minimal
+  publish_nuget: false
+  publish_nuget_symbols: false
+
+for:
+-
+  matrix:
+    only:
+      - image: ubuntu
+      
+  build_script:
+    - msbuild NL2ControlPanel.sln
