@@ -5,4 +5,4 @@ python: "3.7"
 
 before_script: cd Python
 
-script: main.py
+script: python3 main.py
