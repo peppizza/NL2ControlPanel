@@ -1,0 +1,7 @@
+version: 1.0.{build}
+
+image: Ubuntu
+
+build:
+
+  verbosity: minimal
