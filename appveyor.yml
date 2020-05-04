@@ -14,6 +14,6 @@ for:
       - image: Ubuntu
       
   before_build:
-    - nuget restore
+    - sh: nuget restore
   build_script:
     - msbuild NL2ControlPanel.sln
