@@ -2,8 +2,8 @@
 <project version="4">
   <component name="WebServers">
     <option name="servers">
-      <webServer id="1e114600-9b1b-454c-b74c-d76eb6638fdc" name="pi 4">
-        <fileTransfer rootFolder="/home/ubuntu/ControlPanel" accessType="SFTP" host="172.27.153.79" port="22" sshConfigId="80618912-5aa7-42ed-90c8-d53d473adf2f" sshConfig="ubuntu@172.27.153.79:22 password">
+      <webServer id="cee3e3aa-3988-4ea0-8e60-d885bc8892a1" name="pi">
+        <fileTransfer rootFolder="/home/pi/ControlPanel" accessType="SFTP" host="172.27.153.79" port="22" sshConfigId="80618912-5aa7-42ed-90c8-d53d473adf2f" sshConfig="pi@172.27.153.79:22 password">
           <advancedOptions>
             <advancedOptions dataProtectionLevel="Private" passiveMode="true" shareSSLContext="true" />
           </advancedOptions>

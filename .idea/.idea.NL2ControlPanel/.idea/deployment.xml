@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
-  <component name="PublishConfigData" serverName="pi 4">
+  <component name="PublishConfigData" serverName="pi">
     <serverData>
-      <paths name="pi 4">
+      <paths name="pi">
         <serverdata>
           <mappings>
             <mapping local="$PROJECT_DIR$/.idea/.idea.NL2ControlPanel" web="/" />

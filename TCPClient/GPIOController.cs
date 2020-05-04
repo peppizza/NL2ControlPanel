@@ -5,16 +5,21 @@ using Unosquare.RaspberryIO.Abstractions;
 
 namespace TCPClient
 {
-    public class GPIOController
+    public class GpioController
     {
         public int Pin { get; set; }
-        public void TestSwitch()
+        public void LedBlink()
         {
             Pi.Init<BootstrapWiringPi>();
-            var switchPin = Pi.Gpio[Pin];
-            switchPin.PinMode = GpioPinDriveMode.Input;
-            var isOn = switchPin.Read();
-            Console.WriteLine(isOn);
+            var blinkingPin = Pi.Gpio[4];
+            blinkingPin.PinMode = GpioPinDriveMode.Output;
+            var isOn = false;
+            for (var i = 0; i < 20; i++)
+            {
+                isOn = !isOn;
+                blinkingPin.Write(isOn);
+                System.Threading.Thread.Sleep(500);
+            }
         }
     }
 }

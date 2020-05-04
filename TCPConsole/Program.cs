@@ -16,8 +16,8 @@ namespace TCPConsole
             //client.SendCommand("idle");
             //client.SendCommand("idle");
             //client.Close();
-            GPIOController controller = new GPIOController{Pin = 4};
-            controller.TestSwitch();
+            GpioController controller = new GpioController{Pin = 4};
+            controller.LedBlink();
         }
     }
 }

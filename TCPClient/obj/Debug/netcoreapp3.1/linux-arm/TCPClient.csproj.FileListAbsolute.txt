@@ -1,0 +1,9 @@
+E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\linux-arm\TCPClient.deps.json
+E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\linux-arm\TCPClient.dll
+E:\NL2ControlPanel\TCPClient\bin\Debug\netcoreapp3.1\linux-arm\TCPClient.pdb
+E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\linux-arm\TCPClient.csprojAssemblyReference.cache
+E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\linux-arm\TCPClient.csproj.CoreCompileInputs.cache
+E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\linux-arm\TCPClient.AssemblyInfoInputs.cache
+E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\linux-arm\TCPClient.AssemblyInfo.cs
+E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\linux-arm\TCPClient.dll
+E:\NL2ControlPanel\TCPClient\obj\Debug\netcoreapp3.1\linux-arm\TCPClient.pdb
