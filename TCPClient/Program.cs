@@ -34,8 +34,9 @@ namespace TCPClient
      */
     public class NL2TelemetryClient
     {
-        public string Server;
-        public int Port;
+        public string Server { get; set; }
+        public int Port { get; set; }
+
         public TcpClient ClientSocket;
         //NetworkStream stream = ClientSocket.GetStream();
         /**

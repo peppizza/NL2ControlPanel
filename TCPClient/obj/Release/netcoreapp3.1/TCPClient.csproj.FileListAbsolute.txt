@@ -1,0 +1,9 @@
+E:\NL2ControlPanel\TCPClient\bin\Release\netcoreapp3.1\TCPClient.deps.json
+E:\NL2ControlPanel\TCPClient\bin\Release\netcoreapp3.1\TCPClient.dll
+E:\NL2ControlPanel\TCPClient\bin\Release\netcoreapp3.1\TCPClient.pdb
+E:\NL2ControlPanel\TCPClient\obj\Release\netcoreapp3.1\TCPClient.csprojAssemblyReference.cache
+E:\NL2ControlPanel\TCPClient\obj\Release\netcoreapp3.1\TCPClient.csproj.CoreCompileInputs.cache
+E:\NL2ControlPanel\TCPClient\obj\Release\netcoreapp3.1\TCPClient.AssemblyInfoInputs.cache
+E:\NL2ControlPanel\TCPClient\obj\Release\netcoreapp3.1\TCPClient.AssemblyInfo.cs
+E:\NL2ControlPanel\TCPClient\obj\Release\netcoreapp3.1\TCPClient.dll
+E:\NL2ControlPanel\TCPClient\obj\Release\netcoreapp3.1\TCPClient.pdb

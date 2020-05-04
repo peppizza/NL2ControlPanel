@@ -35,6 +35,16 @@
       },
       "frameworks": {
         "netcoreapp3.1": {
+          "dependencies": {
+            "Unosquare.Raspberry.IO": {
+              "target": "Package",
+              "version": "[0.27.0, )"
+            },
+            "Unosquare.WiringPi": {
+              "target": "Package",
+              "version": "[0.5.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",
