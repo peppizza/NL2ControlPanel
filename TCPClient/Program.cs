@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO;
 using System.Net.Sockets;
-using System.Net.WebSockets;
 using System.Text;
 
 namespace TCPClient
@@ -34,10 +33,9 @@ namespace TCPClient
      */
     public class NL2TelemetryClient
     {
-        public string Server { get; set; }
-        public int Port { get; set; }
-
-        public TcpClient ClientSocket;
+        private string _server;
+        private int _port;
+        private readonly TcpClient _client;
         //NetworkStream stream = ClientSocket.GetStream();
         /**
        * Message Enum
@@ -383,15 +381,22 @@ namespace TCPClient
        */
         private static int s_nRequestId;
 
+        public NL2TelemetryClient(string server, int port)
+        {
+            _server = server;
+            _port = port;
+            _client = new TcpClient(server, port);
+        }
+
         public void Close()
         {
-            ClientSocket.Close();
+            _client.Close();
         }
         public void SendCommand(string command)
         {
-            NetworkStream stream = ClientSocket.GetStream();
+            var stream = _client.GetStream();
             Console.WriteLine("sending {0}", command);
-            byte[] bytes = decodeCommand(command);
+            var bytes = decodeCommand(command);
             stream.Write(bytes, 0, bytes.Length);
             var reader = new BinaryReader(stream);
             bytes = readMessage(reader);
@@ -402,11 +407,11 @@ namespace TCPClient
         {
             try
             {
-                NetworkStream stream = ClientSocket.GetStream();
+                NetworkStream stream = _client.GetStream();
                 Console.WriteLine("...connected!");
 
                 Console.WriteLine("Enter 'help' for list of available commands");
-                while (ClientSocket.Connected)
+                while (_client.Connected)
                 {
                     Console.Write("Enter command: ");
                     string sentence = Console.ReadLine();
@@ -430,7 +435,7 @@ namespace TCPClient
                 }
 
                 stream.Close();
-                ClientSocket.Close();
+                _client.Close();
             }
             catch (Exception e)
             {
