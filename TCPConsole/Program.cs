@@ -14,30 +14,23 @@ namespace TCPConsole
         private static bool blinkleftAmber, blinkrightAmber, blinkleftGreen, blinkrightGreen = false;
         private static bool stop;
         private static uint speed;
-        private static readonly Dictionary<string, IGpioPin> buttons = new Dictionary<string, IGpioPin>
-        {
-            {"amberleftbutton", Pi.Gpio[26]},
-            {"amberrightbutton", Pi.Gpio[6]},
-            {"greenleftbutton", Pi.Gpio[13]},
-            {"greenrightbutton", Pi.Gpio[7]},
-            {"auto", Pi.Gpio[19]},
-            {"man", Pi.Gpio[20]}
-        };
-        private static readonly Dictionary<string, IGpioPin> lights = new Dictionary<string, IGpioPin>
-        {
-            {"amberleftlight", Pi.Gpio[21]},
-            {"amberrightlight", Pi.Gpio[12]},
-            {"greenleftlight", Pi.Gpio[16]},
-            {"greenrightlight", Pi.Gpio[5]}
-        };
-
         public static void Main(string[] args)
         {
             Pi.Init<BootstrapWiringPi>();
+            Dictionary<string, IGpioPin> buttons = new Dictionary<string, IGpioPin>
+            {
+                {"amberleftbutton", Pi.Gpio[25]},
+                {"amberrightbutton", Pi.Gpio[5]},
+                {"greenleftbutton", Pi.Gpio[12]},
+                {"greenrightbutton", Pi.Gpio[6]},
+                {"auto", Pi.Gpio[18]},
+                {"man", Pi.Gpio[19]}
+            };
             foreach (var button in buttons)
             {
                 button.Value.PinMode = GpioPinDriveMode.Input;
             }
+            Console.WriteLine(buttons["auto"].Read());
 
             if (buttons["auto"].Read() || buttons["man"].Read())
             {
@@ -46,16 +39,16 @@ namespace TCPConsole
             }
 
             bool automan = false;
-            while (!auto.Read() || !man.Read())
+            while (!buttons["auto"].Read() || !buttons["man"].Read())
             {
-                if (auto.Read())
+                if (buttons["auto"].Read())
                 {
                     automan = true;
                     speed = 1000;
                     break;
                 }
 
-                if (man.Read())
+                if (buttons["man"].Read())
                 {
                     speed = 100;
                     break;
@@ -63,7 +56,7 @@ namespace TCPConsole
             }
             Intro(new NL2TelemetryClient(Server, Port), automan);
 
-            LEDBlink(automan);
+            //LEDBlink(automan);
         }
         static void Intro(NL2TelemetryClient client, bool automan)
         {
@@ -81,35 +74,42 @@ namespace TCPConsole
             Console.WriteLine("done!");
         }
 
-        static void LEDBlink(bool automan)
-        {
-            Pi.Init<BootstrapWiringPi>();
-            var isOn = false;
-            while (!stop)
-            {
-                if (blinkleftAmber)
-                {
-                    amberleftlight.Write(isOn);
-                }
+        //static void LEDBlink(bool automan)
+        //{
+        //private Dictionary<string, IGpioPin> lights = new Dictionary<string, IGpioPin>
+        //{
+        //    {"amberleftlight", Pi.Gpio[21]},
+        //    {"amberrightlight", Pi.Gpio[12]},
+        //    {"greenleftlight", Pi.Gpio[16]},
+        //    {"greenrightlight", Pi.Gpio[5]}
+        //};
+        //    Pi.Init<BootstrapWiringPi>();
+        //    var isOn = false;
+        //    while (!stop)
+        //    {
+        //        if (blinkleftAmber)
+        //        {
+        //            amberleftlight.Write(isOn);
+        //        }
 
-                if (blinkrightAmber)
-                {
-                    amberrightlight.Write(isOn);
-                }
+        //        if (blinkrightAmber)
+        //        {
+        //            amberrightlight.Write(isOn);
+        //        }
 
-                if (blinkleftGreen)
-                {
-                    greenleftlight.Write(isOn);
-                }
+        //        if (blinkleftGreen)
+        //        {
+        //            greenleftlight.Write(isOn);
+        //        }
 
-                if (blinkrightGreen)
-                {
-                    greenrightlight.Write(isOn);
-                }
+        //        if (blinkrightGreen)
+        //        {
+        //            greenrightlight.Write(isOn);
+        //        }
 
-                isOn = !isOn;
-                Pi.Timing.SleepMilliseconds(speed);
-            }
-        }
+        //        isOn = !isOn;
+        //        Pi.Timing.SleepMilliseconds(speed);
+        //    }
+        //}
     }
 }
