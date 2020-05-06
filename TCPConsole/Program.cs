@@ -23,14 +23,13 @@ namespace TCPConsole
                 {"amberrightbutton", Pi.Gpio[5]},
                 {"greenleftbutton", Pi.Gpio[12]},
                 {"greenrightbutton", Pi.Gpio[6]},
-                {"auto", Pi.Gpio[18]},
-                {"man", Pi.Gpio[19]}
+                {"auto", Pi.Gpio[19]},
+                {"man", Pi.Gpio[20]}
             };
             foreach (var button in buttons)
             {
                 button.Value.PinMode = GpioPinDriveMode.Input;
             }
-            Console.WriteLine(buttons["auto"].Read());
 
             if (buttons["auto"].Read() || buttons["man"].Read())
             {
