@@ -1,9 +1,14 @@
+E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.csprojAssemblyReference.cache
+E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.csproj.CoreCompileInputs.cache
+E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.AssemblyInfoInputs.cache
+E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.AssemblyInfo.cs
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPConsole
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPConsole.deps.json
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPConsole.runtimeconfig.json
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPConsole.runtimeconfig.dev.json
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPConsole.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPConsole.pdb
+E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\DotNetEnv.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\Unosquare.Raspberry.Abstractions.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\Unosquare.RaspberryIO.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\Swan.dll
@@ -11,10 +16,6 @@ E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\Swan.Lite.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\Unosquare.WiringPi.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPClient.dll
 E:\NL2ControlPanel\TCPConsole\bin\Release\netcoreapp3.1\linux-arm\TCPClient.pdb
-E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.csprojAssemblyReference.cache
-E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.csproj.CoreCompileInputs.cache
-E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.AssemblyInfoInputs.cache
-E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.AssemblyInfo.cs
 E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.csproj.CopyComplete
 E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.dll
 E:\NL2ControlPanel\TCPConsole\obj\Release\netcoreapp3.1\linux-arm\TCPConsole.pdb

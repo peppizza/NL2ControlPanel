@@ -9,4 +9,8 @@
       <ProjectReference Include="..\TCPClient\TCPClient.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <PackageReference Include="DotNetEnv" Version="1.4.0" />
+    </ItemGroup>
+
 </Project>

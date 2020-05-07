@@ -4,18 +4,20 @@ using Unosquare.RaspberryIO;
 using Unosquare.RaspberryIO.Abstractions;
 using Unosquare.WiringPi;
 using System.Collections.Generic;
+using DotNetEnv;
 
 namespace TCPConsole
 {
     class Program
     {
-        private static string Server = "172.27.153.68";
         private static int Port = 15151;
         private static bool blinkleftAmber, blinkrightAmber, blinkleftGreen, blinkrightGreen = false;
         private static bool stop;
         private static uint speed;
         public static void Main(string[] args)
         {
+            Env.Load();
+            string Server = Env.GetString("IP");
             Pi.Init<BootstrapWiringPi>();
             Dictionary<string, IGpioPin> buttons = new Dictionary<string, IGpioPin>
             {
