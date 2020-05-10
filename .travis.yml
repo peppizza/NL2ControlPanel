@@ -1,4 +1,7 @@
 os:
+  - linux
+
+dist:
   - xenial
   - debian
 
