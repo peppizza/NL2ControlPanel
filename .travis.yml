@@ -1,3 +1,7 @@
+os:
+  - xenial
+  - debian
+
 language: csharp
 solution: NL2ControlPanel.sln
 mono: none
