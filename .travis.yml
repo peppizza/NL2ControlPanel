@@ -1,9 +1,8 @@
-jobs:
-  include:
-    - os: linux
-    dist: xenial
-    - os: linux
-    dist: debian
+os: linux
+
+dist:
+  - xenial
+  - debian
 
 language: csharp
 solution: NL2ControlPanel.sln
