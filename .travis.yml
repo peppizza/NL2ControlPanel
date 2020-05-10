@@ -5,7 +5,7 @@ os:
 language: csharp
 solution: NL2ControlPanel.sln
 mono: none
-dotnet: 3.1.201
+dotnet: latest
 
 script:
   - dotnet restore
