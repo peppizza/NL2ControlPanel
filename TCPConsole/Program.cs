@@ -12,8 +12,9 @@ namespace TCPConsole
     class Program
     {
         private const int Port = 15151;
-        private static bool _stop = false;
-        private static Dictionary<string, bool> _blinkLeds = new Dictionary<string, bool>
+        private static bool _stop;
+
+        private static readonly Dictionary<string, bool> BlinkLeds = new Dictionary<string, bool>
         {
             {"blinkleftAmber", true},
             {"blinkrightAmber", true},
@@ -22,75 +23,83 @@ namespace TCPConsole
         };
 
         private static uint _speed;
+
         public static void Main(string[] args)
+        {
+            Env.Load();
+            var server = Env.GetString("IP");
+            Pi.Init<BootstrapWiringPi>();
+            var buttons = new Dictionary<string, IGpioPin>
             {
-                Env.Load();
-                string server = Env.GetString("IP");
-                Pi.Init<BootstrapWiringPi>();
-                Dictionary<string, IGpioPin> buttons = new Dictionary<string, IGpioPin>
+                {"amberleftbutton", Pi.Gpio[25]},
+                {"amberrightbutton", Pi.Gpio[5]},
+                {"greenleftbutton", Pi.Gpio[12]},
+                {"greenrightbutton", Pi.Gpio[6]},
+                {"auto", Pi.Gpio[19]},
+                {"man", Pi.Gpio[20]}
+            };
+            foreach (var button in buttons)
+            {
+                button.Value.PinMode = GpioPinDriveMode.Input;
+            }
+
+            if (buttons["auto"].Read() || buttons["man"].Read())
+            {
+                WriteLine("TURN OFF PANEL BEFORE STARTING");
+                Environment.Exit(0);
+            }
+
+            var automan = false;
+            while (!buttons["auto"].Read() || !buttons["man"].Read())
+            {
+                if (buttons["auto"].Read())
                 {
-                    {"amberleftbutton", Pi.Gpio[25]},
-                    {"amberrightbutton", Pi.Gpio[5]},
-                    {"greenleftbutton", Pi.Gpio[12]},
-                    {"greenrightbutton", Pi.Gpio[6]},
-                    {"auto", Pi.Gpio[19]},
-                    {"man", Pi.Gpio[20]}
-                };
-                foreach (var button in buttons)
-                {
-                    button.Value.PinMode = GpioPinDriveMode.Input;
+                    automan = true;
+                    _speed = 1000;
+                    break;
                 }
 
-                if (buttons["auto"].Read() || buttons["man"].Read())
+                if (buttons["man"].Read())
                 {
-                    WriteLine("TURN OFF PANEL BEFORE STARTING");
-                    Environment.Exit(0);
-                }
-
-                var automan = false;
-                while (!buttons["auto"].Read() || !buttons["man"].Read())
-                {
-                    if (buttons["auto"].Read())
-                    {
-                        automan = true;
-                        _speed = 1000;
-                        break;
-                    }
-
-                    if (buttons["man"].Read())
-                    {
-                        _speed = 100;
-                        break;
-                    }
-                }
-
-                Intro(new NL2TelemetryClient(server, Port), automan);
-
-                Pi.Threading.StartThread(LEDBlink);
-                while (!_stop)
-                {
-                    if (buttons["amberleftbutton"].Read())
-                    {
-                        WriteLine("pressed left amber button");
-                    }
-
-                    if (buttons["amberrightbutton"].Read())
-                    {
-                        WriteLine("pressed right amber button");
-                    }
-
-                    if (buttons["greenleftbutton"].Read())
-                    {
-                        WriteLine("pressed left green button");
-                    }
-
-                    if (buttons["greenrightbutton"].Read())
-                    {
-                        WriteLine("pressed right green button");
-                    }
-                    Pi.Timing.SleepMilliseconds(_speed);
+                    _speed = 100;
+                    break;
                 }
             }
+
+            Intro(new NL2TelemetryClient(server, Port), automan);
+
+            Pi.Threading.StartThread(LEDBlink);
+            while (!_stop)
+            {
+                if (buttons["amberleftbutton"].Read())
+                {
+                    WriteLine("pressed left amber button");
+                }
+
+                if (buttons["amberrightbutton"].Read())
+                {
+                    WriteLine("pressed right amber button");
+                }
+
+                if (buttons["greenleftbutton"].Read())
+                {
+                    WriteLine("pressed left green button");
+                }
+
+                if (buttons["greenrightbutton"].Read())
+                {
+                    WriteLine("pressed right green button");
+                }
+
+                if (!buttons["auto"].Read() && !buttons["man"].Read())
+                {
+                    WriteLine("stopping");
+                    _stop = true;
+                }
+
+                Pi.Timing.SleepMilliseconds(_speed);
+            }
+        }
 
         static void Intro(NL2TelemetryClient client, bool automan)
         {
@@ -128,22 +137,22 @@ namespace TCPConsole
 
             while (!_stop)
             {
-                if (_blinkLeds["blinkleftAmber"])
+                if (BlinkLeds["blinkleftAmber"])
                 {
                     lights["amberleftlight"].Write(isOn);
                 }
 
-                if (_blinkLeds["blinkrightAmber"])
+                if (BlinkLeds["blinkrightAmber"])
                 {
                     lights["amberrightlight"].Write(isOn);
                 }
 
-                if (_blinkLeds["blinkleftGreen"])
+                if (BlinkLeds["blinkleftGreen"])
                 {
                     lights["greenleftlight"].Write(isOn);
                 }
 
-                if (_blinkLeds["blinkrightGreen"])
+                if (BlinkLeds["blinkrightGreen"])
                 {
                     lights["greenrightlight"].Write(isOn);
                 }
