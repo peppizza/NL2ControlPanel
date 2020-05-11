@@ -8,11 +8,9 @@ jobs:
   include:
     - os: linux
     dist: xenial
-    script:
-      - dotnet restore
-      - dotnet build
     - os: linux
     dist: debian
-    script:
-      - dotnet restore
-      - dotnet build
+
+script:
+  - dotnet restore
+  - dotnet build
