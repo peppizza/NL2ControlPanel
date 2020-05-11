@@ -5,112 +5,153 @@ using Unosquare.RaspberryIO.Abstractions;
 using Unosquare.WiringPi;
 using System.Collections.Generic;
 using DotNetEnv;
+using static System.Console;
 
 namespace TCPConsole
 {
     class Program
     {
-        private static int Port = 15151;
-        private static bool blinkleftAmber, blinkrightAmber, blinkleftGreen, blinkrightGreen = false;
-        private static bool stop;
-        private static uint speed;
-        public static void Main(string[] args)
+        private const int Port = 15151;
+        private static bool _stop = false;
+        private static Dictionary<string, bool> _blinkLeds = new Dictionary<string, bool>
         {
-            Env.Load();
-            string Server = Env.GetString("IP");
-            Pi.Init<BootstrapWiringPi>();
-            Dictionary<string, IGpioPin> buttons = new Dictionary<string, IGpioPin>
-            {
-                {"amberleftbutton", Pi.Gpio[25]},
-                {"amberrightbutton", Pi.Gpio[5]},
-                {"greenleftbutton", Pi.Gpio[12]},
-                {"greenrightbutton", Pi.Gpio[6]},
-                {"auto", Pi.Gpio[19]},
-                {"man", Pi.Gpio[20]}
-            };
-            foreach (var button in buttons)
-            {
-                button.Value.PinMode = GpioPinDriveMode.Input;
-            }
+            {"blinkleftAmber", true},
+            {"blinkrightAmber", true},
+            {"blinkleftGreen", true},
+            {"blinkrightGreen", true}
+        };
 
-            if (buttons["auto"].Read() || buttons["man"].Read())
+        private static uint _speed;
+        public static void Main(string[] args)
             {
-                Console.WriteLine("TURN OFF PANEL BEFORE STARTING");
-                Environment.Exit(0);
-            }
-
-            bool automan = false;
-            while (!buttons["auto"].Read() || !buttons["man"].Read())
-            {
-                if (buttons["auto"].Read())
+                Env.Load();
+                string server = Env.GetString("IP");
+                Pi.Init<BootstrapWiringPi>();
+                Dictionary<string, IGpioPin> buttons = new Dictionary<string, IGpioPin>
                 {
-                    automan = true;
-                    speed = 1000;
-                    break;
+                    {"amberleftbutton", Pi.Gpio[25]},
+                    {"amberrightbutton", Pi.Gpio[5]},
+                    {"greenleftbutton", Pi.Gpio[12]},
+                    {"greenrightbutton", Pi.Gpio[6]},
+                    {"auto", Pi.Gpio[19]},
+                    {"man", Pi.Gpio[20]}
+                };
+                foreach (var button in buttons)
+                {
+                    button.Value.PinMode = GpioPinDriveMode.Input;
                 }
 
-                if (buttons["man"].Read())
+                if (buttons["auto"].Read() || buttons["man"].Read())
                 {
-                    speed = 100;
-                    break;
+                    WriteLine("TURN OFF PANEL BEFORE STARTING");
+                    Environment.Exit(0);
+                }
+
+                var automan = false;
+                while (!buttons["auto"].Read() || !buttons["man"].Read())
+                {
+                    if (buttons["auto"].Read())
+                    {
+                        automan = true;
+                        _speed = 1000;
+                        break;
+                    }
+
+                    if (buttons["man"].Read())
+                    {
+                        _speed = 100;
+                        break;
+                    }
+                }
+
+                Intro(new NL2TelemetryClient(server, Port), automan);
+
+                Pi.Threading.StartThread(LEDBlink);
+                while (!_stop)
+                {
+                    if (buttons["amberleftbutton"].Read())
+                    {
+                        WriteLine("pressed left amber button");
+                    }
+
+                    if (buttons["amberrightbutton"].Read())
+                    {
+                        WriteLine("pressed right amber button");
+                    }
+
+                    if (buttons["greenleftbutton"].Read())
+                    {
+                        WriteLine("pressed left green button");
+                    }
+
+                    if (buttons["greenrightbutton"].Read())
+                    {
+                        WriteLine("pressed right green button");
+                    }
+                    Pi.Timing.SleepMilliseconds(_speed);
                 }
             }
-            Intro(new NL2TelemetryClient(Server, Port), automan);
 
-            //LEDBlink(automan);
-        }
         static void Intro(NL2TelemetryClient client, bool automan)
         {
-            stop = false;
             if (automan)
             {
-                Console.WriteLine("starting up...");
-                client.SendCommand("idle");
-            } 
-            else
-            {
-                Console.WriteLine("Entering manual mode...");
+                WriteLine("starting up...");
                 client.SendCommand("idle");
             }
-            Console.WriteLine("done!");
+            else
+            {
+                WriteLine("Entering manual mode...");
+                client.SendCommand("idle");
+            }
+
+            WriteLine("done!");
         }
 
-        //static void LEDBlink(bool automan)
-        //{
-        //private Dictionary<string, IGpioPin> lights = new Dictionary<string, IGpioPin>
-        //{
-        //    {"amberleftlight", Pi.Gpio[21]},
-        //    {"amberrightlight", Pi.Gpio[12]},
-        //    {"greenleftlight", Pi.Gpio[16]},
-        //    {"greenrightlight", Pi.Gpio[5]}
-        //};
-        //    Pi.Init<BootstrapWiringPi>();
-        //    var isOn = false;
-        //    while (!stop)
-        //    {
-        //        if (blinkleftAmber)
-        //        {
-        //            amberleftlight.Write(isOn);
-        //        }
+        static void LEDBlink()
+        {
+            Pi.Init<BootstrapWiringPi>();
+            var lights = new Dictionary<string, IGpioPin>
+            {
+                {"amberleftlight", Pi.Gpio[21]},
+                {"amberrightlight", Pi.Gpio[12]},
+                {"greenleftlight", Pi.Gpio[16]},
+                {"greenrightlight", Pi.Gpio[5]}
+            };
 
-        //        if (blinkrightAmber)
-        //        {
-        //            amberrightlight.Write(isOn);
-        //        }
+            foreach (var light in lights)
+            {
+                light.Value.PinMode = GpioPinDriveMode.Output;
+            }
 
-        //        if (blinkleftGreen)
-        //        {
-        //            greenleftlight.Write(isOn);
-        //        }
+            var isOn = false;
 
-        //        if (blinkrightGreen)
-        //        {
-        //            greenrightlight.Write(isOn);
-        //        }
+            while (!_stop)
+            {
+                if (_blinkLeds["blinkleftAmber"])
+                {
+                    lights["amberleftlight"].Write(isOn);
+                }
 
-        //        isOn = !isOn;
-        //        Pi.Timing.SleepMilliseconds(speed);
-        //    }
-        //}
+                if (_blinkLeds["blinkrightAmber"])
+                {
+                    lights["amberrightlight"].Write(isOn);
+                }
+
+                if (_blinkLeds["blinkleftGreen"])
+                {
+                    lights["greenleftlight"].Write(isOn);
+                }
+
+                if (_blinkLeds["blinkrightGreen"])
+                {
+                    lights["greenrightlight"].Write(isOn);
+                }
+
+                isOn = !isOn;
+                WriteLine(isOn);
+                Pi.Timing.SleepMilliseconds(_speed);
+            }
+        }
     }
 }

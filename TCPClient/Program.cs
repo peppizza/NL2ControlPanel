@@ -36,6 +36,7 @@ namespace TCPClient
         private string _server;
         private int _port;
         private readonly TcpClient _client;
+        private readonly NetworkStream _stream;
         //NetworkStream stream = ClientSocket.GetStream();
         /**
        * Message Enum
@@ -386,19 +387,20 @@ namespace TCPClient
             _server = server;
             _port = port;
             _client = new TcpClient(server, port);
+            _stream = _client.GetStream();
         }
 
         public void Close()
         {
+            _stream.Close();
             _client.Close();
         }
         public void SendCommand(string command)
         {
-            var stream = _client.GetStream();
             Console.WriteLine("sending {0}", command);
             var bytes = decodeCommand(command);
-            stream.Write(bytes, 0, bytes.Length);
-            var reader = new BinaryReader(stream);
+            _stream.Write(bytes, 0, bytes.Length);
+            var reader = new BinaryReader(_stream);
             bytes = readMessage(reader);
             decodeMessage(bytes);
         }
@@ -407,7 +409,6 @@ namespace TCPClient
         {
             try
             {
-                NetworkStream stream = _client.GetStream();
                 Console.WriteLine("...connected!");
 
                 Console.WriteLine("Enter 'help' for list of available commands");
@@ -423,9 +424,9 @@ namespace TCPClient
                     byte[] bytes = decodeCommand(sentence);
                     if (bytes != null)
                     {
-                        stream.Write(bytes, 0, bytes.Length);
+                        _stream.Write(bytes, 0, bytes.Length);
 
-                        var reader = new BinaryReader(stream);
+                        var reader = new BinaryReader(_stream);
 
                         bytes = readMessage(reader);
 
@@ -434,7 +435,7 @@ namespace TCPClient
                     }
                 }
 
-                stream.Close();
+                _stream.Close();
                 _client.Close();
             }
             catch (Exception e)
