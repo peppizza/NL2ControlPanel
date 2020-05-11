@@ -5,4 +5,4 @@ dotnet: 3.1.201
 
 script:
   - dotnet restore
-  - dotnet build
+  - dotnet build -r linux-arm
