@@ -2,6 +2,5 @@ version: 1.0.{build}
 
 image: Ubuntu
 
-build:
-
-  verbosity: minimal
+build_script:
+  - sh: dotnet build -r linux-arm
