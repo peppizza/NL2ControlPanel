@@ -1,4 +1,4 @@
 version: 1.0.{build}
 
 build_script:
-  - sh: dotnet build -r linux-arm
+  - cmd: dotnet build -r linux-arm
