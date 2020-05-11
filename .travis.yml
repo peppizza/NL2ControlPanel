@@ -1,15 +1,18 @@
 os: linux
-
-dist:
-  - xenial
-  - debian
-
 language: csharp
 solution: NL2ControlPanel.sln
 mono: none
 dotnet: 3.1.201
 
-script:
-  - dotnet restore
-  - dotnet build
-  
+jobs:
+  include:
+    - os: linux
+    dist: xenial
+    scripts:
+      - dotnet restore
+      - dotnet build
+    -os: linux
+    dist: debian
+    scripts:
+      - dotnet restore
+      - dotnet build
