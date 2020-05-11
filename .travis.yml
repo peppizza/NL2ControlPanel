@@ -1,8 +1,12 @@
 os: windows
-language: csharp
-mono: none
-dotnet: 3.1.201
+language: generic
 
+install:
+  powershell:
+    - choco install wget
+    - wget https://dot.net/v1/dotnet-install.ps1
+    - dotnet-install.ps1 -Channel Current
+    
 script:
   - dotnet restore
-  - dotnet build -r linux-arm
+  - dotnet build
