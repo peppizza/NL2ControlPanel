@@ -2,10 +2,9 @@ os: windows
 language: generic
 
 install:
-  powershell:
-    - choco install wget
-    - wget https://dot.net/v1/dotnet-install.ps1
-    - dotnet-install.ps1 -Channel Current
+  - choco install wget
+  - wget https://dot.net/v1/dotnet-install.ps1
+  - dotnet-install.ps1 -Channel Current
     
 script:
   - dotnet restore
