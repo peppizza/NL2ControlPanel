@@ -2,6 +2,8 @@
 using System.IO;
 using System.Net.Sockets;
 using System.Text;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace TCPClient
 {
@@ -395,14 +397,13 @@ namespace TCPClient
             _stream.Close();
             _client.Close();
         }
-        public void SendCommand(string command)
+        public string SendCommand(string command)
         {
-            Console.WriteLine("sending {0}", command);
             var bytes = decodeCommand(command);
             _stream.Write(bytes, 0, bytes.Length);
             var reader = new BinaryReader(_stream);
             bytes = readMessage(reader);
-            decodeMessage(bytes);
+            return string.Join(",", decodeMessage(bytes));
         }
         
         public void Infinite()
@@ -1036,137 +1037,51 @@ namespace TCPClient
         /**
        * Decode a received message
        */
-        private static void decodeMessage(byte[] bytes)
+        private static List<string> decodeMessage(byte[] bytes)
         {
+            var listRange = new List<string>();
             int len = bytes.Length;
             if (len >= 10)
             {
                 int msg = decodeUShort16(bytes[1], bytes[2]);
-                int requestId = decodeInt32(bytes, 3);
                 int size = decodeUShort16(bytes[7], bytes[8]);
                 if (size + 10 == len)
                 {
-                    Console.Write("Server replied to request " + requestId + ": ");
                     switch (msg)
                     {
                         case N_MSG_IDLE:
-                            Console.WriteLine("Idle");
+                            listRange.Add("Idle");
                             break;
                         case N_MSG_OK:
-                            Console.WriteLine("Ok");
+                            listRange.Add("Ok");
                             break;
                         case N_MSG_ERROR:
-                        {
-                            Console.WriteLine("Error: " + decodeString(bytes, c_nExtraSizeOffset, size));
-                        }
+                            listRange.Add("Error: " + decodeString(bytes, c_nExtraSizeOffset, size));
                             break;
                         case N_MSG_STRING:
-                        {
-                            Console.WriteLine("String: " + decodeString(bytes, c_nExtraSizeOffset, size));
-                        }
+                            listRange.Add("String: " + decodeString(bytes, c_nExtraSizeOffset, size));
                             break;
                         case N_MSG_VERSION:
                             if (size == 4)
                             {
-                                Console.WriteLine("Version: " + bytes[c_nExtraSizeOffset] + "." +
+                                listRange.Add("Version: " + bytes[c_nExtraSizeOffset] + "." +
                                                   bytes[c_nExtraSizeOffset + 1] + "." + bytes[c_nExtraSizeOffset + 2] +
                                                   "." + bytes[c_nExtraSizeOffset + 3]);
                             }
 
                             break;
-                        case N_MSG_TELEMETRY:
-                            if (size == 76)
-                            {
-                                int state = decodeInt32(bytes, c_nExtraSizeOffset);
-
-                                int frameNo = decodeInt32(bytes, c_nExtraSizeOffset + 4);
-
-                                bool inPlay = (state & 1) != 0;
-                                bool onboard = (state & 2) != 0;
-                                bool paused = (state & 4) != 0;
-
-                                int viewMode = decodeInt32(bytes, c_nExtraSizeOffset + 8);
-                                int coasterIndex = decodeInt32(bytes, c_nExtraSizeOffset + 12);
-                                int coasterStyleId = decodeInt32(bytes, c_nExtraSizeOffset + 16);
-                                int currentTrain = decodeInt32(bytes, c_nExtraSizeOffset + 20);
-                                int currentCar = decodeInt32(bytes, c_nExtraSizeOffset + 24);
-                                int currentSeat = decodeInt32(bytes, c_nExtraSizeOffset + 28);
-                                float speed = decodeFloat(bytes, c_nExtraSizeOffset + 32);
-
-                                Quaternion quat = new Quaternion();
-
-                                float posx = decodeFloat(bytes, c_nExtraSizeOffset + 36);
-                                float posy = decodeFloat(bytes, c_nExtraSizeOffset + 40);
-                                float posz = decodeFloat(bytes, c_nExtraSizeOffset + 44);
-
-                                quat.x = decodeFloat(bytes, c_nExtraSizeOffset + 48);
-                                quat.y = decodeFloat(bytes, c_nExtraSizeOffset + 52);
-                                quat.z = decodeFloat(bytes, c_nExtraSizeOffset + 56);
-                                quat.w = decodeFloat(bytes, c_nExtraSizeOffset + 60);
-
-                                float gforcex = decodeFloat(bytes, c_nExtraSizeOffset + 64);
-                                float gforcey = decodeFloat(bytes, c_nExtraSizeOffset + 68);
-                                float gforcez = decodeFloat(bytes, c_nExtraSizeOffset + 72);
-
-                                double pitch = ToDegrees(quat.toPitchFromYUp());
-                                double yaw = ToDegrees(quat.toYawFromYUp());
-                                double roll = ToDegrees(quat.toRollFromYUp());
-
-                                Console.WriteLine("Telemetry:");
-
-                                Console.Write("  State: " + state);
-                                if (inPlay)
-                                {
-                                    Console.Write(" (Play Mode)");
-                                }
-
-                                if (onboard)
-                                {
-                                    Console.Write(" (Onboard)");
-                                }
-
-                                if (paused)
-                                {
-                                    Console.Write(" (Paused)");
-                                }
-
-                                Console.WriteLine("");
-
-                                Console.WriteLine("  Frame Number: " + frameNo);
-
-                                Console.Write("  View Mode: " + viewMode);
-                                if (viewMode == 1)
-                                {
-                                    Console.Write(" (Ride View)");
-                                }
-
-                                Console.WriteLine("");
-
-                                Console.WriteLine("  Coaster Index: " + coasterIndex);
-                                Console.WriteLine("  Coaster Style Id: " + coasterStyleId);
-                                Console.WriteLine("  Current Train Index: " + currentTrain);
-                                Console.WriteLine("  Current Car Index: " + currentCar);
-                                Console.WriteLine("  Current Seat Index: " + currentSeat);
-                                Console.WriteLine("  Speed: " + speed + "m/s");
-                                Console.WriteLine("  Position: " + posx + " " + posy + " " + posz);
-                                Console.WriteLine("  Pitch: " + pitch + "deg");
-                                Console.WriteLine("  Yaw: " + yaw + "deg");
-                                Console.WriteLine("  Roll: " + roll + "deg");
-                                Console.WriteLine("  G-forces: " + gforcex + " " + gforcey + " " + gforcez);
-                            }
-
-                            break;
+                        
                         case N_MSG_INT_VALUE:
                             if (size == 4)
                             {
-                                Console.WriteLine("Int value: " + decodeInt32(bytes, c_nExtraSizeOffset));
+                                listRange.Add("Int value: " + decodeInt32(bytes, c_nExtraSizeOffset));
                             }
 
                             break;
                         case N_MSG_INT_VALUE_PAIR:
                             if (size == 8)
                             {
-                                Console.WriteLine("Int value pair: " + decodeInt32(bytes, c_nExtraSizeOffset) + ", " +
+                                listRange.Add("Int value pair: " + decodeInt32(bytes, c_nExtraSizeOffset) + ", " +
                                                   decodeInt32(bytes, c_nExtraSizeOffset + 4));
                             }
 
@@ -1176,77 +1091,36 @@ namespace TCPClient
                             {
                                 int nState = decodeInt32(bytes, c_nExtraSizeOffset);
 
-                                bool bEStop = (nState & (1 << 0)) != 0;
-                                bool bManualDispatch = (nState & (1 << 1)) != 0;
-                                bool bCanDispatch = (nState & (1 << 2)) != 0;
-                                bool bCanCloseGates = (nState & (1 << 3)) != 0;
-                                bool bCanOpenGates = (nState & (1 << 4)) != 0;
-                                bool bCanCloseHarness = (nState & (1 << 5)) != 0;
-                                bool bCanOpenHarness = (nState & (1 << 6)) != 0;
-                                bool bCanRaisePlatform = (nState & (1 << 7)) != 0;
-                                bool bCanLowerPlatform = (nState & (1 << 8)) != 0;
-                                bool bCanLockFlyerCar = (nState & (1 << 9)) != 0;
-                                bool bCanUnlockFlyerCar = (nState & (1 << 10)) != 0;
-                                bool bTrainInStation = (nState & (1 << 11)) != 0;
-                                bool bTrainInStationIsCurrentTrain = (nState & (1 << 12)) != 0;
+                                var states = new List<bool>
+                                {
+                                    (nState & (1 << 0)) != 0,
+                                    (nState & (1 << 1)) != 0,
+                                    (nState & (1 << 2)) != 0,
+                                    (nState & (1 << 3)) != 0,
+                                    (nState & (1 << 4)) != 0,
+                                    (nState & (1 << 5)) != 0,
+                                    (nState & (1 << 6)) != 0,
+                                    (nState & (1 << 7)) != 0,
+                                    (nState & (1 << 8)) != 0,
+                                    (nState & (1 << 9)) != 0,
+                                    (nState & (1 << 10)) != 0,
+                                    (nState & (1 << 11)) != 0,
+                                    (nState & (1 << 12)) != 0
+                                };
 
-                                Console.Write("Station state: ");
-                                Console.WriteLine("    E-Stop: " + bEStop);
-                                Console.WriteLine("    Manual Dispatch: " + bManualDispatch);
-                                Console.WriteLine("    Can Dispatch: " + bCanDispatch);
-                                Console.WriteLine("    Can Close Gates: " + bCanCloseGates);
-                                Console.WriteLine("    Can Open Gates: " + bCanOpenGates);
-                                Console.WriteLine("    Can Close Harness: " + bCanCloseHarness);
-                                Console.WriteLine("    Can Open Harness: " + bCanOpenHarness);
-                                Console.WriteLine("    Can Raise Platform: " + bCanRaisePlatform);
-                                Console.WriteLine("    Can Lower Platform: " + bCanLowerPlatform);
-                                Console.WriteLine("    Can Lock Flyer Car: " + bCanLockFlyerCar);
-                                Console.WriteLine("    Can Unlock Flyer Car: " + bCanUnlockFlyerCar);
-                                Console.WriteLine("    Train in Station: " + bTrainInStation);
-                                Console.WriteLine(
-                                    "    Train in Station is Current Train: " + bTrainInStationIsCurrentTrain);
+                                listRange.AddRange(states.Select(state => state.ToString()));
                             }
 
                             break;
                         default:
-                            Console.WriteLine("Unknown message");
+                            listRange.Add("Unknown message");
                             break;
                     }
                 }
             }
-        }
 
-        /////
-
-        /**
-       * Helper class to decode rotation quaternion into pitch/yaw/roll
-       */
-        class Quaternion
-        {
-            public double x;
-            public double y;
-            public double z;
-            public double w;
-
-            public double toPitchFromYUp()
-            {
-                double vx = 2 * (x * y + w * y);
-                double vy = 2 * (w * x - y * z);
-                double vz = 1.0 - 2 * (x * x + y * y);
-
-                return Math.Atan2(vy, Math.Sqrt(vx * vx + vz * vz));
-            }
-
-            public double toYawFromYUp()
-            {
-                return Math.Atan2(2 * (x * y + w * y), 1.0 - 2 * (x * x + y * y));
-            }
-
-            public double toRollFromYUp()
-            {
-                return Math.Atan2(2 * (x * y + w * z), 1.0 - 2 * (x * x + z * z));
-            }
-
+            return listRange;
         }
     }
 }
+

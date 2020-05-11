@@ -23,12 +23,13 @@ namespace TCPConsole
         };
 
         private static uint _speed;
+        private static NL2TelemetryClient _client;
 
         public static void Main(string[] args)
         {
             Env.Load();
-            var server = Env.GetString("IP");
             Pi.Init<BootstrapWiringPi>();
+            _client = new NL2TelemetryClient(Env.GetString("IP"), Port);
             var buttons = new Dictionary<string, IGpioPin>
             {
                 {"amberleftbutton", Pi.Gpio[25]},
@@ -46,6 +47,7 @@ namespace TCPConsole
             if (buttons["auto"].Read() || buttons["man"].Read())
             {
                 WriteLine("TURN OFF PANEL BEFORE STARTING");
+                _client.Close();
                 Environment.Exit(0);
             }
 
@@ -66,7 +68,7 @@ namespace TCPConsole
                 }
             }
 
-            Intro(new NL2TelemetryClient(server, Port), automan);
+            Intro(automan);
 
             Pi.Threading.StartThread(LEDBlink);
             while (!_stop)
@@ -94,6 +96,7 @@ namespace TCPConsole
                 if (!buttons["auto"].Read() && !buttons["man"].Read())
                 {
                     WriteLine("stopping");
+                    _client.Close();
                     _stop = true;
                 }
 
@@ -101,17 +104,19 @@ namespace TCPConsole
             }
         }
 
-        static void Intro(NL2TelemetryClient client, bool automan)
+        static void Intro(bool automan)
         {
             if (automan)
             {
                 WriteLine("starting up...");
-                client.SendCommand("idle");
+                _client.SendCommand("idle");
+                WriteLine(_client.SendCommand("gss"));
             }
             else
             {
                 WriteLine("Entering manual mode...");
-                client.SendCommand("idle");
+                _client.SendCommand("idle");
+                WriteLine(_client.SendCommand("gss"));
             }
 
             WriteLine("done!");
