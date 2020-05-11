@@ -10,7 +10,7 @@ jobs:
     dist: xenial
     - os: linux
     dist: debian
-
+    
 script:
   - dotnet restore
   - dotnet build
