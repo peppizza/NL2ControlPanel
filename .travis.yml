@@ -7,8 +7,10 @@ dotnet: 3.1.201
 jobs:
   include:
     - os: linux
+    - arch: amd64
     - dist: xenial
     - os: linux
+    - arch: arm64
     - dist: debian
     
 script:
