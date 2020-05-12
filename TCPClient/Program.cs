@@ -4,6 +4,7 @@ using System.Net.Sockets;
 using System.Text;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace TCPClient
 {
@@ -35,8 +36,6 @@ namespace TCPClient
      */
     public class NL2TelemetryClient
     {
-        private string _server;
-        private int _port;
         private readonly TcpClient _client;
         private readonly NetworkStream _stream;
         //NetworkStream stream = ClientSocket.GetStream();
@@ -386,24 +385,35 @@ namespace TCPClient
 
         public NL2TelemetryClient(string server, int port)
         {
-            _server = server;
-            _port = port;
-            _client = new TcpClient(server, port);
-            _stream = _client.GetStream();
-        }
+            try
+            {
+                _client = new TcpClient(server, port);
+                
+                if (_client.Connected)
+                {
+                    Console.WriteLine("Successfully connected to NoLimits 2");
+                }
 
+                _stream = _client.GetStream();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
+        
         public void Close()
         {
             _stream.Close();
             _client.Close();
         }
-        public string SendCommand(string command)
+        public List<string> SendCommand(string command)
         {
             var bytes = decodeCommand(command);
             _stream.Write(bytes, 0, bytes.Length);
             var reader = new BinaryReader(_stream);
             bytes = readMessage(reader);
-            return string.Join(",", decodeMessage(bytes));
+            return decodeMessage(bytes);
         }
         
         public void Infinite()

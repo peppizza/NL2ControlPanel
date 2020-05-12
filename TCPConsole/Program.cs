@@ -32,10 +32,10 @@ namespace TCPConsole
             _client = new NL2TelemetryClient(Env.GetString("IP"), Port);
             var buttons = new Dictionary<string, IGpioPin>
             {
-                {"amberleftbutton", Pi.Gpio[25]},
-                {"amberrightbutton", Pi.Gpio[5]},
-                {"greenleftbutton", Pi.Gpio[12]},
-                {"greenrightbutton", Pi.Gpio[6]},
+                {"amberleftbutton", Pi.Gpio[26]},
+                {"amberrightbutton", Pi.Gpio[6]},
+                {"greenleftbutton", Pi.Gpio[13]},
+                {"greenrightbutton", Pi.Gpio[7]},
                 {"auto", Pi.Gpio[19]},
                 {"man", Pi.Gpio[20]}
             };
@@ -70,7 +70,8 @@ namespace TCPConsole
 
             Intro(automan);
 
-            Pi.Threading.StartThread(LEDBlink);
+            Pi.Threading.StartThread(LedBlink);
+            Pi.Threading.StartThread(GetStationState);
             while (!_stop)
             {
                 if (buttons["amberleftbutton"].Read())
@@ -99,8 +100,8 @@ namespace TCPConsole
                     _client.Close();
                     _stop = true;
                 }
-
                 Pi.Timing.SleepMilliseconds(_speed);
+                Clear();
             }
         }
 
@@ -110,19 +111,17 @@ namespace TCPConsole
             {
                 WriteLine("starting up...");
                 _client.SendCommand("idle");
-                WriteLine(_client.SendCommand("gss"));
             }
             else
             {
                 WriteLine("Entering manual mode...");
                 _client.SendCommand("idle");
-                WriteLine(_client.SendCommand("gss"));
             }
 
             WriteLine("done!");
         }
 
-        static void LEDBlink()
+        static void LedBlink()
         {
             Pi.Init<BootstrapWiringPi>();
             var lights = new Dictionary<string, IGpioPin>
@@ -163,9 +162,38 @@ namespace TCPConsole
                 }
 
                 isOn = !isOn;
-                WriteLine(isOn);
                 Pi.Timing.SleepMilliseconds(_speed);
             }
+
+            foreach (var light in lights)
+            {
+                WriteLine($"Turning off: {light.Key}");
+                light.Value.Write(true);
+            }
         }
+
+        private static void GetStationState()
+            {
+                var states = new Dictionary<string, bool>();
+                while (!_stop)
+                {
+                    states.Clear();
+                    var bools = _client.SendCommand("gss");
+                    states.Add("EStop", Convert.ToBoolean(bools[0]));
+                    states.Add("Manual", Convert.ToBoolean(bools[1]));
+                    states.Add("Dispatch", Convert.ToBoolean(bools[2]));
+                    states.Add("CloseGates", Convert.ToBoolean(bools[3]));
+                    states.Add("OpenGates", Convert.ToBoolean(bools[4]));
+                    states.Add("CloseHarness", Convert.ToBoolean(bools[5]));
+                    states.Add("OpenHarness", Convert.ToBoolean(bools[6]));
+                    states.Add("RaisePlatfor", Convert.ToBoolean(bools[7]));
+                    states.Add("LowerPlatform", Convert.ToBoolean(bools[8]));
+                    states.Add("LockFlyer", Convert.ToBoolean(bools[9]));
+                    states.Add("UnlockFlyer", Convert.ToBoolean(bools[10]));
+                    states.Add("InStation", Convert.ToBoolean(bools[11]));
+                    //WriteLine(string.Join(" ", states));
+                    Pi.Timing.SleepMilliseconds(10000);
+                }
+            }
     }
 }
