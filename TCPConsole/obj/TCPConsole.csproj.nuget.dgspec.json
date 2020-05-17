@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "E:\\NL2ControlPanel\\TCPConsole\\TCPConsole.csproj": {}
+    "/home/spencer/RiderProjects/NL2ControlPanel/TCPConsole/TCPConsole.csproj": {}
   },
   "projects": {
-    "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj": {
+    "/home/spencer/RiderProjects/NL2ControlPanel/TCPClient/TCPClient.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj",
+        "projectUniqueName": "/home/spencer/RiderProjects/NL2ControlPanel/TCPClient/TCPClient.csproj",
         "projectName": "TCPClient",
-        "projectPath": "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj",
-        "packagesPath": "C:\\Users\\Spencer\\.nuget\\packages\\",
-        "outputPath": "E:\\NL2ControlPanel\\TCPClient\\obj\\",
+        "projectPath": "/home/spencer/RiderProjects/NL2ControlPanel/TCPClient/TCPClient.csproj",
+        "packagesPath": "/home/spencer/.nuget/packages/",
+        "outputPath": "/home/spencer/RiderProjects/NL2ControlPanel/TCPClient/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Spencer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/spencer/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -60,21 +60,21 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "D:\\Applications\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.202/RuntimeIdentifierGraph.json"
         }
       }
     },
-    "E:\\NL2ControlPanel\\TCPConsole\\TCPConsole.csproj": {
+    "/home/spencer/RiderProjects/NL2ControlPanel/TCPConsole/TCPConsole.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\NL2ControlPanel\\TCPConsole\\TCPConsole.csproj",
+        "projectUniqueName": "/home/spencer/RiderProjects/NL2ControlPanel/TCPConsole/TCPConsole.csproj",
         "projectName": "TCPConsole",
-        "projectPath": "E:\\NL2ControlPanel\\TCPConsole\\TCPConsole.csproj",
-        "packagesPath": "C:\\Users\\Spencer\\.nuget\\packages\\",
-        "outputPath": "E:\\NL2ControlPanel\\TCPConsole\\obj\\",
+        "projectPath": "/home/spencer/RiderProjects/NL2ControlPanel/TCPConsole/TCPConsole.csproj",
+        "packagesPath": "/home/spencer/.nuget/packages/",
+        "outputPath": "/home/spencer/RiderProjects/NL2ControlPanel/TCPConsole/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\Spencer\\AppData\\Roaming\\NuGet\\NuGet.Config"
+          "/home/spencer/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -85,8 +85,8 @@
         "frameworks": {
           "netcoreapp3.1": {
             "projectReferences": {
-              "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj": {
-                "projectPath": "E:\\NL2ControlPanel\\TCPClient\\TCPClient.csproj"
+              "/home/spencer/RiderProjects/NL2ControlPanel/TCPClient/TCPClient.csproj": {
+                "projectPath": "/home/spencer/RiderProjects/NL2ControlPanel/TCPClient/TCPClient.csproj"
               }
             }
           }
@@ -120,7 +120,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "D:\\Applications\\dotnet\\sdk\\3.1.201\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/3.1.202/RuntimeIdentifierGraph.json"
         }
       }
     }
